@@ -1,0 +1,15 @@
+{
+  "name": "juanhiang-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/app.ts",
+  "repository": "git@github.com:saransu/juanhiang-backend.git",
+  "author": "pan <saran.swpy@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "tsnd --respawn src/app.ts"
+  },
+  "devDependencies": {
+    "typescript": "~5.1.6"
+  }
+}
