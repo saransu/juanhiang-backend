@@ -16,6 +16,9 @@ const main = async () => {
     return res.status(200).send({ message: 'hello' })
   })
 
+  // middlewares
+  app.use(express.json())
+
   // routes
   app.use('/api/v1', router)
 

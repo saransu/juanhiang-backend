@@ -1,5 +1,5 @@
 import { isNil } from 'lodash'
-import { Order } from '../models'
+import { Item, Order } from '../models'
 import { ItemInterface, OrderInterface } from '../interfaces'
 
 export class OrderRepository {
@@ -8,12 +8,17 @@ export class OrderRepository {
     const where: { status?: OrderInterface.OrderStatus } = {}
     if (!isNil(status))
       where.status = status
-    return Order.find(where).exec()
+    return Order.find(where).populate('items').exec()
   }
 
   createOrder = async (input: { order: { status: OrderInterface.OrderStatus, createdAt: Date, items: ItemInterface.CreateItemInput[] } }) => {
     const { order } = input
-    const model = new Order(order)
+    const items = await Promise.all(order.items.map(async v => {
+      const item = new Item(v)
+      await item.save()
+      return item
+    }))
+    const model = new Order({ ...order, items })
     return model.save()
   }
 }
