@@ -17,4 +17,21 @@ export class OrderController {
       return res.status(500).send({ error: err.message })
     }
   }
+
+  postOrder = async (req: Request, res: Response) => {
+    try {
+      const { items } = req.body as Interfaces.PostOrderBody
+      const order = {
+        status: Interfaces.OrderStatus.IN_PROGRESS,
+        createdAt: new Date(),
+        items
+      }      
+      await repo.createOrder({ order })
+
+      return res.status(201).send({ message: 'create order successfully' })
+    } catch (err: any) {
+      writeLog('ERROR', 'postOrder', err.message)
+      return res.status(500).send({ error: err.message })
+    }
+  }
 }

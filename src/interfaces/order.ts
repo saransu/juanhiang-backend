@@ -1,3 +1,15 @@
+import { CreateItemInput } from './item'
+
+export enum OrderStatus {
+  IN_PROGRESS = 'IN_PROGRESS',
+  DONE = 'DONE',
+  CANCEL = 'CANCEL',
+}
+
 export interface GetOrdersQuery {
-  status?: 'IN_PROGRESS' | 'DONE' | 'CANCEL'
+  status?: OrderStatus
+}
+
+export interface PostOrderBody {
+  items: CreateItemInput[]
 }

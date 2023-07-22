@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
-import Order from './order'
-import Item from './item'
-import Menu from './menu'
 import Option from './option'
+import Menu from './menu'
+import Item from './item'
+import Order from './order'
 import { isNil } from 'lodash'
 
 export {
