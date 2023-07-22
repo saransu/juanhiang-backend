@@ -9,7 +9,7 @@ export class OrderController {
   getOrders = async (req: Request, res: Response) => {
     try {
       const { status } = req.query as Interfaces.GetOrdersQuery
-      const data = await repo.getOrders({ status })
+      const data = await repo.getAll({ status })
 
       return res.status(200).send({ data, message: 'get orders successfully' })
     } catch (err: any) {
@@ -31,6 +31,19 @@ export class OrderController {
       return res.status(201).send({ message: 'create order successfully' })
     } catch (err: any) {
       writeLog('ERROR', 'postOrder', err.message)
+      return res.status(500).send({ error: err.message })
+    }
+  }
+
+  updateStatus = async (req: Request, res: Response) => {
+    try {
+      const { status } = req.body as Interfaces.PostStatusBody
+      const id = req.params.id
+      await repo.updateStatus({ id, status })
+
+      return res.status(200).send({ message: 'update order status successfully' })
+    } catch (err: any) {
+      writeLog('ERROR', 'postStatus', err.message)
       return res.status(500).send({ error: err.message })
     }
   }

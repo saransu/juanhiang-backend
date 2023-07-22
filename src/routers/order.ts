@@ -7,5 +7,6 @@ const controllers = new OrderController()
 router
   .get('/', controllers.getOrders)
   .post('/', controllers.postOrder)
+  .patch('/:id', controllers.updateStatus)
 
 export default router

@@ -13,3 +13,7 @@ export interface GetOrdersQuery {
 export interface PostOrderBody {
   items: CreateItemInput[]
 }
+
+export interface PostStatusBody {
+  status: OrderStatus
+}

@@ -3,7 +3,7 @@ import { Item, Order } from '../models'
 import { ItemInterface, OrderInterface } from '../interfaces'
 
 export class OrderRepository {
-  getOrders = async (input: { status?: OrderInterface.OrderStatus }) => {
+  getAll = async (input: { status?: OrderInterface.OrderStatus }) => {
     const { status } = input
     const where: { status?: OrderInterface.OrderStatus } = {}
     if (!isNil(status))
@@ -20,5 +20,10 @@ export class OrderRepository {
     }))
     const model = new Order({ ...order, items })
     return model.save()
+  }
+
+  updateStatus = async (input: { id: string, status: OrderInterface.OrderStatus }) => {
+    const { id, status } = input
+    return Order.findByIdAndUpdate(id, { status, updatedAt: new Date() })
   }
 }
