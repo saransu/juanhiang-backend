@@ -1,6 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import initDB from './models'
+import router from './routers'
 
 const main = async () => {
   dotenv.config()
@@ -14,6 +15,9 @@ const main = async () => {
   app.get('/', (req, res) => {
     return res.status(200).send({ message: 'hello' })
   })
+
+  // routes
+  app.use('/api/v1', router)
 
   app.listen(port, () => console.log(`Backend Started at port: ${port}`))
 }
