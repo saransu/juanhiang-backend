@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { writeLog } from '../utils'
 import { OrderRepository } from '../repositories'
 import { OrderInterface as Interfaces } from '../interfaces'
+import io from '../app'
 
 const repo = new OrderRepository()
 
@@ -27,6 +28,11 @@ export class OrderController {
         items
       }      
       await repo.createOrder({ order })
+
+      if (items.some(i => i.type === 'KITCHEN'))
+        io.serverSideEmit('kitchen_refresh')
+      if (items.some(i => i.type === 'DRINK'))
+        io.serverSideEmit('drink_refresh')
 
       return res.status(201).send({ message: 'create order successfully' })
     } catch (err: any) {

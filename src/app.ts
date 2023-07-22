@@ -2,27 +2,32 @@ import express from 'express'
 import dotenv from 'dotenv'
 import initDB from './models'
 import router from './routers'
+import { Server } from 'socket.io'
+import { createServer } from 'http'
 
-const main = async () => {
-  dotenv.config()
-  const app = express()
-  const port = process.env.PORT || 4000
+dotenv.config()
+const app = express()
+const server = createServer(app)
 
-  initDB()
-    .then(() => console.log('Database connection established'))
-    .catch(() => console.log('Database connection failed'))
+// Socket Server
+const io = new Server(server)
 
-  app.get('/', (req, res) => {
-    return res.status(200).send({ message: 'hello' })
-  })
+io.on('item_success', ({ id }: { id: string }) => {
+  io.serverSideEmit('front_desk_refresh', id)
+})
 
-  // middlewares
-  app.use(express.json())
+export default io
 
-  // routes
-  app.use('/api/v1', router)
+const port = process.env.PORT || 4000
 
-  app.listen(port, () => console.log(`Backend Started at port: ${port}`))
-}
+initDB()
+  .then(() => console.log('Database connection established'))
+  .catch(() => console.log('Database connection failed'))
 
-main()
+// middlewares
+app.use(express.json())
+
+// routes
+app.use('/api/v1', router)
+
+server.listen(port, () => console.log(`Backend Started at port: ${port}`))
