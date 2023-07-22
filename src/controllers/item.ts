@@ -17,4 +17,16 @@ export class ItemController {
       return res.status(500).send({ error: err.message })
     }
   }
+
+  updateStatus = async (req: Request, res: Response) => {
+    try {
+      const id = req.params.id
+      await repo.updateStatus({ id })
+
+      return res.status(200).send({ message: 'update item status successfully' })
+    } catch (err: any) {
+      writeLog('ERROR', 'updateItemStatus', err.message)
+      return res.status(500).send({ error: err.message })
+    }
+  }
 }
