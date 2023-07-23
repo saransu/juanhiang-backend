@@ -12,12 +12,6 @@ const server = createServer(app)
 // Socket Server
 const io = new Server(server)
 
-io.on('item_success', ({ id }: { id: string }) => {
-  io.serverSideEmit('front_desk_refresh', id)
-})
-
-export default io
-
 const port = process.env.PORT || 4000
 
 initDB()
@@ -31,3 +25,5 @@ app.use(express.json())
 app.use('/api/v1', router)
 
 server.listen(port, () => console.log(`Backend Started at port: ${port}`))
+
+export { io }

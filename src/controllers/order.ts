@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { writeLog } from '../utils'
 import { OrderRepository } from '../repositories'
 import { OrderInterface as Interfaces } from '../interfaces'
-import io from '../app'
+import { io } from '../app'
 
 const repo = new OrderRepository()
 

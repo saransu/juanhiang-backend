@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { writeLog } from '../utils'
 import { ItemInterface as Interfaces } from '../interfaces'
 import { ItemRepository } from '../repositories'
+import { io } from '../app'
 
 const repo = new ItemRepository()
 
@@ -22,6 +23,8 @@ export class ItemController {
     try {
       const id = req.params.id
       await repo.updateStatus({ id })
+
+      io.serverSideEmit('front_desk_refresh', { id })
 
       return res.status(200).send({ message: 'update item status successfully' })
     } catch (err: any) {
